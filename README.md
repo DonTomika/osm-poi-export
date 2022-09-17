@@ -6,11 +6,11 @@ This project was inspired by [OSM Names](https://osmnames.org/), which can be us
 
 ## Getting Started
 
-Make sure you have Docker and Docker Compose installed.
+Make sure you have Docker and Docker Compose installed, and free space greater than 4 times the size of the extract you are going to work with (e.g. at least 275 GB for the whole planet).
 
 1) Download an OSM extract from your provider of choice (e.g. http://download.geofabrik.de/index.html) and place it inside the `data` directory.
 
-2) Change the value of the `OSM_PBF_FILENAME` variable in  `.env` to match the name of the downloaded export.
+2) Change the value of the `OSM_PBF_FILENAME` variable in  `.env` to match the name of the downloaded extract.
 
 3) Run the following command:
 ```
