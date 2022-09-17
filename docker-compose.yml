@@ -1,0 +1,38 @@
+version: "3"
+
+volumes:
+  pgdata:
+
+services:
+  poi-export:
+    build: .
+    volumes:
+      - ./data:${DATA_DIR}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      PGDATABASE: ${PGDATABASE}
+      DATA_DIR: ${DATA_DIR}
+      OSM_PBF_FILENAME: ${OSM_PBF_FILENAME}
+      OUTPUT_FILENAME: ${OUTPUT_FILENAME}
+
+  postgres:
+    image: postgis/postgis:14-3.3-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init-osm-db.sh:/docker-entrypoint-initdb.d/init-osm-db.sh
+    ports:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}

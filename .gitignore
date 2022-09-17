@@ -1,0 +1,3 @@
+# ignore the contents of the data directory
+/data/*
+!/data/.keep
